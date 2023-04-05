@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using WildPrices.Business.Services.Common;
+using WildPrices.Business.Services.Implementation;
 using WildPrices.Data.Contexts.Contracts;
 using WildPrices.Data.Contexts.Implementation;
 using WildPrices.Data.Entities;
@@ -38,6 +41,21 @@ namespace WildPrices.WebApi.IoC
             services.AddScoped<IPriceHistoryRepository, PriceHistoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            return services;
+        }
+
+        public static IServiceCollection ConfigureAutoMapper(this IServiceCollection services)
+        {
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            return services;
+        }
+
+        public static IServiceCollection ConfigureServices(this IServiceCollection services)
+        {
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserService, UserService>();
 
             return services;
         }

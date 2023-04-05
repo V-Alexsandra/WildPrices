@@ -12,13 +12,13 @@ builder.Services.ConfigureSqlContext(configuration);
 
 builder.Services.ConfigureIdentity(configuration);
 
-//builder.Services.ConfigureAutoMapper();
+builder.Services.ConfigureAutoMapper();
 
 //builder.Services.ConfigureFluentValidation();
 
 builder.Services.ConfigureRepositories();
 
-//builder.Services.ConfigureServices();
+builder.Services.ConfigureServices();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

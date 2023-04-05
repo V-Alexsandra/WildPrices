@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WildPrices.Business\WildPrices.Business.csproj" />
     <ProjectReference Include="..\WildPrices.Data\WildPrices.Data.csproj" />
   </ItemGroup>
 
