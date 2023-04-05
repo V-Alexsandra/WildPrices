@@ -5,22 +5,33 @@ using WildPrices.Data.Repositories.Contracts;
 
 namespace WildPrices.Data.Repositories.Implementation
 {
-    public abstract class PriceHistoryRepository : BaseRepository<PriceHistoryEntity>, IPriceHistoryRepository
+    public class PriceHistoryRepository : BaseRepository<PriceHistoryEntity>, IPriceHistoryRepository
     {
         public PriceHistoryRepository(IApplicationDbContext appContext) : base(appContext)
         {
         }
 
-        public virtual async Task DeleteAllByProductIdAsync(int productId)
+        public async Task DeleteAllByProductIdAsync(int productId)
         {
             var entities = await DbSet.Where(e => e.ProductId == productId).ToListAsync();
             DbSet.RemoveRange(entities);
             await appContext.SaveChangesAsync();
         }
 
-        public virtual async Task<IEnumerable<PriceHistoryEntity>> GetAllByProductIdAsync(int productId) =>
+        public async Task<IEnumerable<PriceHistoryEntity>> GetAllByProductIdAsync(int productId) =>
             await DbSet
             .Where(e => e.ProductId == productId)
             .ToListAsync();
+
+        public async Task<double> GetTheCurrentPriceAsync(int productId)
+        {
+            var entities = await DbSet
+           .Where(e => e.ProductId == productId)
+           .ToListAsync();
+
+            var last = entities.Last();
+
+            return last.CurrentPrice;
+        }
     }
 }

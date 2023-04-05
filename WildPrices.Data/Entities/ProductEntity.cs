@@ -14,5 +14,6 @@ namespace WildPrices.Data.Entities
         public string UserId { get; set; } = null!;
         [ForeignKey("UserId")]
         public UserEntity UserEntity { get; set; } = null!;
+        public bool IsDesiredPrice { get; set; }
     }
 }
