@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  wildprices.webapi:
+    container_name: "WildPrices"
+    image: ${DOCKER_REGISTRY-}wildpriceswebap
+    
+  mssqldb:
+    container_name: "MsSqlDB"
+    image: "mcr.microsoft.com/mssql/server:2019-latest"

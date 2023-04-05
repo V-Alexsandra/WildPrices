@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+  wildprices.webapi:
+    build:
+      context: .
+      dockerfile: WildPrices.WebApi/Dockerfile
+    depends_on:
+      - mssqldb
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "80"
+      - "443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    networks:
+      - wildprices-network
+
+  mssqldb:
+     ports:
+        - "1433:1433"
+     environment:
+        SA_PASSWORD: "<Sasha3003>"
+        ACCEPT_EULA: "Y"
+     volumes:
+          - mssql-server-linux-data:/var/opt/mssql
+     networks:
+      - wildprices-network
+
+volumes:
+  mssql-server-linux-data:
+
+networks:
+  wildprices-network:
