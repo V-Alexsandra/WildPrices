@@ -9,6 +9,5 @@ namespace WildPrices.Data.Repositories.Contracts
         Task<IEnumerable<PriceHistoryEntity>> GetAllByProductIdAsync(int productId);
 
         Task<double> GetTheCurrentPriceAsync(int productId);
-
     }
 }
