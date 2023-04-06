@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using WildPrices.Business.DTOs;
+using WildPrices.Business.DTOs.UserDtos;
 using WildPrices.Business.Exceptions;
 using WildPrices.Business.Services.Common;
 using WildPrices.Data.Entities;

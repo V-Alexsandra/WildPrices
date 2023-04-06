@@ -1,4 +1,4 @@
-﻿using WildPrices.Business.DTOs;
+﻿using WildPrices.Business.DTOs.UserDtos;
 
 namespace WildPrices.Business.Services.Common
 {
