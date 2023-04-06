@@ -1,7 +1,8 @@
-﻿namespace WildPrices.Business.DTOs
+﻿namespace WildPrices.Business.DTOs.ProductDtos
 {
-    public class ProductDto
+    public class ProductForViewDto
     {
+        public int Id { get; set; }
         public string Name { get; set; } = null!;
         public string Link { get; set; } = null!;
         public string? Image { get; set; }

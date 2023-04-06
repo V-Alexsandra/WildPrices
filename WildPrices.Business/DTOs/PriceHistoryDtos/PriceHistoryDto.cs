@@ -1,4 +1,4 @@
-﻿namespace WildPrices.Business.DTOs
+﻿namespace WildPrices.Business.DTOs.PriceHistoryDtos
 {
     public class PriceHistoryDto
     {
