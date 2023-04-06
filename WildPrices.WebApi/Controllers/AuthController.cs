@@ -1,6 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using WildPrices.Business.DTOs;
+﻿using Microsoft.AspNetCore.Mvc;
+using WildPrices.Business.DTOs.UserDtos;
 using WildPrices.Business.Services.Common;
 
 namespace WildPrices.WebApi.Controllers
@@ -10,15 +9,14 @@ namespace WildPrices.WebApi.Controllers
     public class AuthController : ControllerBase
     {
         private IUserService _userService;
-        private readonly IMapper _mapper;
 
-        public AuthController(IUserService userService,IMapper mapper)
+        public AuthController(IUserService userService)
         {
             _userService = userService;
-            _mapper = mapper;
         }
 
         [HttpPost]
+        [Route("register")]
         public async Task<IActionResult> RegisterUserAsync([FromBody] RegisterUserDto model)
         {
             var register = await _userService.RegisterUserAsync(model);
