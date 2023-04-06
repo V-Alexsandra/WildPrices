@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using WildPrices.Business.DTOs;
+using WildPrices.Business.DTOs.UserDtos;
 using WildPrices.Data.Entities;
 
 namespace WildPrices.Business.MappingProfiles
@@ -10,13 +10,6 @@ namespace WildPrices.Business.MappingProfiles
         {
             CreateMap<UserEntity, UserDto>()
                  .ForMember(dest => dest.Name, opt => opt.Ignore());
-            ////
-            ///
-            //
-            //
-            //
-            //
-            //
         }
     }
 }
