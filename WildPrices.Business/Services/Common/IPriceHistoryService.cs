@@ -1,18 +1,16 @@
-﻿using WildPrices.Business.DTOs.PriceHistoryDtos;
-using WildPrices.Business.DTOs.ProductDtos;
+﻿using WildPrices.Business.DTOs.ProductDtos;
+using WildPrices.Data.Entities;
 
 namespace WildPrices.Business.Services.Common
 {
     public interface IPriceHistoryService
     {
-        Task CreatePriceHistoryAsync(PriceHistoryDto model);
+        Task CreatePriceHistoryAsync(ProductFromWildberriesDto model);
 
-        Task<CurrentPriceDto> GetCurrentPriceForProductAsync(ProductForViewDto model);
+        Task DeleteAllByProductIdAsync(int productId);
 
-        Task<CurrentPriceDto> GetCurrentPriceForProductCardAsync(ProductCardForViewDto model);
+        Task<MinAndMaxPriceDto> GetMaxAndMinPriceAsync(int productId);
 
-        Task<IEnumerable<PriceHistoryDto>> GetPriceHistoryForProductCardAsync(ProductCardForViewDto model);
-
-        Task DeleteAllByProductIdAsync(ProductForViewDto model);
+        Task<IEnumerable<PriceHistoryEntity>> GetAllPriceHistoryByProductIdAsync(int productId);
     }
 }
