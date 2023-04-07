@@ -23,6 +23,24 @@ namespace WildPrices.Data.Repositories.Implementation
             .Where(e => e.ProductId == productId)
             .ToListAsync();
 
+        public async Task<double> GetMaxPriceAsync(int productId)
+        {
+            var maxPrice = await DbSet
+                .Where(ph => ph.ProductId == productId)
+                .MaxAsync(ph => ph.CurrentPrice);
+
+            return maxPrice;
+        }
+
+        public async Task<double> GetMinPriceAsync(int productId)
+        {
+            var minPrice = await DbSet
+               .Where(ph => ph.ProductId == productId)
+               .MinAsync(ph => ph.CurrentPrice);
+
+            return minPrice;
+        }
+
         public async Task<double> GetTheCurrentPriceAsync(int productId)
         {
             var entities = await DbSet

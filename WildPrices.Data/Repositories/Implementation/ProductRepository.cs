@@ -45,7 +45,7 @@ namespace WildPrices.Data.Repositories.Implementation
             return entity.IsDesiredPrice;
         }
 
-        public async Task<int> GetArticleById(int id)
+        public async Task<int> GetArticleByIdAsync(int id)
         {
             var entity = await DbSet
             .AsNoTracking()

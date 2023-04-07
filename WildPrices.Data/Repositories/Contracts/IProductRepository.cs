@@ -12,6 +12,6 @@ namespace WildPrices.Data.Repositories.Contracts
 
         Task<bool> GetIsDesiredPriceByArticleAsync(int article);
 
-        Task<int> GetArticleById(int id);
+        Task<int> GetArticleByIdAsync(int id);
     }
 }
