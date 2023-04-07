@@ -56,6 +56,9 @@ namespace WildPrices.WebApi.IoC
         {
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IParserService, ParserService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IPriceHistoryService, PriceHistoryService>();
 
             return services;
         }
