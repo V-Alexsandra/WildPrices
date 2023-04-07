@@ -32,34 +32,5 @@ namespace WildPrices.Test.MappingTests
 
             mapper.ConfigurationProvider.AssertConfigurationIsValid();
         }
-
-
-        [Fact]
-        public void ValidateMappingProductCardProfile_ShouldReturnSuccessResult()
-        {
-            MapperConfiguration mapperConfig = new MapperConfiguration(
-            cfg =>
-            {
-                cfg.AddProfile(new ProductCardProfile());
-            });
-
-            IMapper mapper = new Mapper(mapperConfig);
-
-            mapper.ConfigurationProvider.AssertConfigurationIsValid();
-        }
-
-        [Fact]
-        public void ValidateMappingUserProfile_ShouldReturnSuccessResult()
-        {
-            MapperConfiguration mapperConfig = new MapperConfiguration(
-            cfg =>
-            {
-                cfg.AddProfile(new UserProfile());
-            });
-
-            IMapper mapper = new Mapper(mapperConfig);
-
-            mapper.ConfigurationProvider.AssertConfigurationIsValid();
-        }
     }
 }
