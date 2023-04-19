@@ -2,6 +2,6 @@
 {
     public class RegisterSuccessDto
     {
-        public string Email { get; set; }
+        public string? Email { get; set; }
     }
 }

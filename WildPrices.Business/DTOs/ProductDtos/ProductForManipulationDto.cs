@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using WildPrices.Data.Entities;
-
-namespace WildPrices.Business.DTOs.ProductDtos
+﻿namespace WildPrices.Business.DTOs.ProductDtos
 {
     public class ProductForManipulationDto
     {
@@ -13,5 +10,6 @@ namespace WildPrices.Business.DTOs.ProductDtos
         public double MinPrice { get; set; }
         public double DesiredPrice { get; set; }
         public bool IsDesiredPrice { get; set; }
+        public string? UserId { get; set; }
     }
 }
