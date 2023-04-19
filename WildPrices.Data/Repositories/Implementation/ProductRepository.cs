@@ -26,6 +26,12 @@ namespace WildPrices.Data.Repositories.Implementation
             return entity;
         }
 
+        public async Task<IEnumerable<ProductEntity>> GetAllAsyncByUserId(string userId) =>
+           await DbSet
+          .Where(e => e.UserId == userId)
+          .ToListAsync();
+        
+
         public async Task<IEnumerable<ProductEntity>> GetAllIsDesiredAsync() =>
             await DbSet
             .Where(e => e.IsDesiredPrice)
@@ -52,6 +58,15 @@ namespace WildPrices.Data.Repositories.Implementation
             .FirstOrDefaultAsync(e => e.Id == id);
 
             return entity.Article;
+        }
+
+        public async Task<int> GetProductIdByArticle(int article)
+        {
+            var entity = await DbSet
+            .AsNoTracking()
+            .FirstOrDefaultAsync(e => e.Article == article);
+
+            return entity.Id;
         }
     }
 }
