@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using WildPrices.Business.DTOs.PriceHistoryDtos;
 using WildPrices.Business.DTOs.ProductDtos;
 using WildPrices.Business.Services.Common;
 using WildPrices.Data.Entities;
@@ -17,7 +18,7 @@ namespace WildPrices.Business.Services.Implementation
             _priceHistoryRepository = priceHistoryRepository;
         }
 
-        public async Task CreatePriceHistoryAsync(ProductFromWildberriesDto model)
+        public async Task CreatePriceHistoryAsync(PriceHistoryForCreationDto model)
         {
             var priceHistory = _mapper.Map<PriceHistoryEntity>(model);
 
@@ -44,6 +45,11 @@ namespace WildPrices.Business.Services.Implementation
                 MaxPrice = maxPrice,
                 MinPrice = minPrice
             };
+        }
+
+        public async Task<double> GetCurrentPriceAsync(int productId)
+        {
+            return await _priceHistoryRepository.GetTheCurrentPriceAsync(productId);
         }
     }
 }

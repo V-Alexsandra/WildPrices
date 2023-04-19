@@ -1,43 +1,91 @@
-﻿using AngleSharp;
+﻿using Newtonsoft.Json;
+using System.Globalization;
+using System.Net;
+using System.Text;
+using WildPrices.Business.DTOs.PriceHistoryDtos;
 using WildPrices.Business.DTOs.ProductDtos;
 using WildPrices.Business.Services.Common;
+using static System.Net.WebRequestMethods;
 
 namespace WildPrices.Business.Services.Implementation
 {
     public class ParserService : IParserService
     {
-        public async Task<ProductFromWildberriesDto> GetProductByArticleAsync(string article)
+        public ProductFromWildberriesDto GetProductByArticle(string article)
         {
-            string url = $"https://www.wildberries.by/product?card={article}";
+            string url = $"https://card.wb.ru/cards/detail?nm={article};{article};{article}&appType=128&curr=byn&locale=by&lang=ru&dest=-59208&regions=1,4,22,30,31,33,40,48,66,68,69,70,80,83,111,114,115&reg=1&spp=0";
 
-            var config = Configuration.Default.WithDefaultLoader();
-            var context = BrowsingContext.New(config);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
 
-            var document = await context.OpenAsync(url);
+            request.Method = "GET";
 
-            string brandName = document.QuerySelector("span.product__brand-name").TextContent.Trim();
-            string productName = document.QuerySelector("span[data-tag=\"productName\"]").TextContent.Trim();
-
-            string name = brandName + " / " + productName;
-
-            string image = document.QuerySelector("picture img.swiper-slide__img").GetAttribute("src");
-            // Создаем объект
-
-            string currentPrice = document.QuerySelector("div.product-price-current span.product-price-current__value").TextContent.Trim();
-
-            currentPrice = currentPrice.Replace(",", ".");
-
-            var productFromWildberries = new ProductFromWildberriesDto
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             {
-                Name = name,
-                Link = url,
-                Image = image,
-                Article = Convert.ToInt32(article),
-                CurrentPrice = Convert.ToDouble(currentPrice),
-                CurrentDate = DateTime.Now.ToString()
-            };
+                using (Stream stream = response.GetResponseStream())
+                {
+                    using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                    {
+                        string json = reader.ReadToEnd();
 
-            return productFromWildberries;
+                        dynamic jsonObj = JsonConvert.DeserializeObject(json);
+
+                        string productName = jsonObj.data.products[0].name;
+                        string brand = jsonObj.data.products[0].brand;
+
+                        string name = brand + " / " + productName;
+
+                        var productFromWildberries = new ProductFromWildberriesDto
+                        {
+                            Name = name,
+                            Link = $"https://www.wildberries.by/product?card={article}",
+                            Image = "image",
+                            Article = Convert.ToInt32(article),
+                        };
+
+                        return productFromWildberries;
+                    }
+                }
+            }
+        }
+
+        public PriceHistoryForCreationDto GetPriceHistory(ProductFromWildberriesDto productFromWildberries)
+        {
+            string article = productFromWildberries.Article.ToString();
+            
+            string url = $"https://card.wb.ru/cards/detail?nm={article};{article};{article}&appType=128&curr=byn&locale=by&lang=ru&dest=-59208&regions=1,4,22,30,31,33,40,48,66,68,69,70,80,83,111,114,115&reg=1&spp=0";
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+
+            request.Method = "GET";
+
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            {
+                using (Stream stream = response.GetResponseStream())
+                {
+                    using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                    {
+                        string json = reader.ReadToEnd();
+
+                        dynamic jsonObj = JsonConvert.DeserializeObject(json);
+
+                        string salePriceU = jsonObj.data.products[0].salePriceU;
+
+                        string currentPrice = salePriceU.Substring(0, salePriceU.Length - 2) + "." + salePriceU.Substring(salePriceU.Length - 2);
+
+                        string currentDate = DateTime.Now.ToShortDateString();
+                        DateTime date = DateTime.ParseExact(currentDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                        string newDateStr = date.ToString("dd/MM/yyyy");
+
+                        var priceHistoryForCreationDto = new PriceHistoryForCreationDto
+                        {
+                            CurrentPrice = Convert.ToDouble(currentPrice),
+                            CurrentDate = newDateStr
+                        };
+
+                        return priceHistoryForCreationDto;
+                    }
+                }
+            }
         }
     }
 }

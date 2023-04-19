@@ -5,11 +5,11 @@ namespace WildPrices.Business.Services.Common
 {
     public interface IProductService
     {
-        DesiredPriceDto GetDisiredPriceAsync(double desiredPrice);
+        DesiredPriceDto GetDisiredPrice(double desiredPrice);
 
-        Task CreateProductWhenDoesNotExistAsync(ProductFromWildberriesDto model, DesiredPriceDto desiredPriceDto, MinAndMaxPriceDto minAndMaxPriceDto);
+        Task CreateProductWhenDoesNotExistAsync(ProductFromWildberriesDto model, DesiredPriceDto desiredPriceDto, string id);
 
-        Task<IEnumerable<ProductEntity>> GetAllProductAsync();
+        Task<IEnumerable<ProductEntity>> GetAllProductAsync(string userId);
 
         Task<IEnumerable<ProductEntity>> GetAllIsDesiredProductsAsync();
 
@@ -20,5 +20,9 @@ namespace WildPrices.Business.Services.Common
         Task UpdateAsync(ProductForUpdateDto model);
 
         Task DeleteProductAsync(int id);
+
+        Task<int> GetProductIdByArticle(int article);
+
+        Task<ProductEntity> GetProductById(int id);
     }
 }

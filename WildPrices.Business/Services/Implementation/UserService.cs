@@ -24,19 +24,14 @@ namespace WildPrices.Business.Services.Implementation
                 throw new ArgumentNullException(nameof(model), "Register Model is null");
             }
 
-            if (model.Password != model.RepeatPassword)
-            {
-                throw new NotSucceededException("Incorrect Password");
-            }
-
             var identityUser = new UserEntity
             {
                 Email = model.Email,
-                UserName = "NewUser"
+                UserName = model.Email
             };
 
             var result = await _userManager.CreateAsync(identityUser, model.Password);
-
+            
             if (!result.Succeeded)
             {
                 throw new NotSucceededException("Register failed");
@@ -71,8 +66,27 @@ namespace WildPrices.Business.Services.Implementation
 
             return new LoginSuccessDto
             {
+                Id = user.Id,
                 Token = _tokenService.GenerateAccessToken(await _tokenService.GetClaimsAsync(user.Email))
             };
+        }
+
+        public async Task ChangeUserName(string userName, string id) 
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                throw new NotFoundException("User not found");
+            }
+
+            user.UserName = userName;
+            IdentityResult result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                throw new NotSucceededException($"Failed to change user name with id {id}");
+            }
         }
     }
 }
