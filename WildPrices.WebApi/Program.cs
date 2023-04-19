@@ -14,9 +14,11 @@ builder.Services.ConfigureIdentity(configuration);
 
 builder.Services.ConfigureAutoMapper();
 
-//builder.Services.ConfigureFluentValidation();
+builder.Services.ConfigureFluentValidation();
 
 builder.Services.ConfigureRepositories();
+
+builder.Services.ConfigureAuthentication(configuration);
 
 builder.Services.ConfigureServices();
 
@@ -35,6 +37,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

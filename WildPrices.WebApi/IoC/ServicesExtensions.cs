@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
+using System.Text;
+using WildPrices.Business.MappingProfiles;
 using WildPrices.Business.Services.Common;
 using WildPrices.Business.Services.Implementation;
 using WildPrices.Data.Contexts.Contracts;
@@ -47,7 +52,8 @@ namespace WildPrices.WebApi.IoC
 
         public static IServiceCollection ConfigureAutoMapper(this IServiceCollection services)
         {
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddAutoMapper(typeof(PriceHistoryProfile));
+            services.AddAutoMapper(typeof(ProductProfile));
 
             return services;
         }
@@ -59,6 +65,44 @@ namespace WildPrices.WebApi.IoC
             services.AddScoped<IParserService, ParserService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IPriceHistoryService, PriceHistoryService>();
+            services.AddMemoryCache();
+
+            return services;
+        }
+
+        public static IServiceCollection ConfigureFluentValidation(this IServiceCollection services)
+        {
+            services.AddFluentValidation(options =>
+            {
+                options.ImplicitlyValidateChildProperties = true;
+                options.ImplicitlyValidateRootCollectionElements = true;
+
+                options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddAuthentication(auth =>
+            {
+                auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidAudience = configuration["AuthSettings:Audience"],
+                    ValidIssuer = configuration["AuthSettings:Issuer"],
+                    RequireExpirationTime = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["AuthSettings:Key"])),
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true
+                };
+            });
 
             return services;
         }
