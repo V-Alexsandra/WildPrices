@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using WildPrices.Business.DTOs.ProductDtos;
+using WildPrices.Business.DTOs.PriceHistoryDtos;
 using WildPrices.Data.Entities;
 
 namespace WildPrices.Business.MappingProfiles
@@ -8,10 +8,9 @@ namespace WildPrices.Business.MappingProfiles
     {
         public PriceHistoryProfile()
         {
-            CreateMap<ProductFromWildberriesDto, PriceHistoryEntity>()
-                 .ForMember(dest => dest.Id, opt => opt.Ignore())
-                 .ForMember(dest => dest.ProductId, opt => opt.Ignore())
-                 .ForMember(dest => dest.ProductEntity, opt => opt.Ignore()); 
+            CreateMap<PriceHistoryForCreationDto, PriceHistoryEntity>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.ProductEntity, opt => opt.Ignore());
             //for view
         }
     }
