@@ -30,16 +30,18 @@ namespace WildPrices.Data.Repositories.Implementation
            await DbSet
           .Where(e => e.UserId == userId)
           .ToListAsync();
-        
 
-        public async Task<IEnumerable<ProductEntity>> GetAllIsDesiredAsync() =>
+
+        public async Task<IEnumerable<ProductEntity>> GetAllIsDesiredAsync(string userId) =>
             await DbSet
             .Where(e => e.IsDesiredPrice)
+            .Where(e => e.UserId == userId)
             .ToListAsync();
 
-        public async Task<IEnumerable<ProductEntity>> GetAllIsNotDesiredAsync() =>
+        public async Task<IEnumerable<ProductEntity>> GetAllIsNotDesiredAsync(string userId) =>
             await DbSet
             .Where(e => !e.IsDesiredPrice)
+            .Where(e => e.UserId == userId)
             .ToListAsync();
 
         public async Task<bool> GetIsDesiredPriceByArticleAsync(int article)

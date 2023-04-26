@@ -8,9 +8,9 @@ namespace WildPrices.Data.Repositories.Contracts
 
         Task<ProductEntity> CreateWhenDoesNotExistAsync(ProductEntity entity);
 
-        Task<IEnumerable<ProductEntity>> GetAllIsDesiredAsync();
+        Task<IEnumerable<ProductEntity>> GetAllIsDesiredAsync(string userId);
 
-        Task<IEnumerable<ProductEntity>> GetAllIsNotDesiredAsync();
+        Task<IEnumerable<ProductEntity>> GetAllIsNotDesiredAsync(string userId);
 
         Task<bool> GetIsDesiredPriceByArticleAsync(int article);
 
