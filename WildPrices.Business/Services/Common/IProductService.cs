@@ -9,11 +9,11 @@ namespace WildPrices.Business.Services.Common
 
         Task CreateProductWhenDoesNotExistAsync(ProductFromWildberriesDto model, DesiredPriceDto desiredPriceDto, string id);
 
-        Task<IEnumerable<ProductEntity>> GetAllProductAsync(string userId);
+        Task<IEnumerable<ProductCardForViewDto>> GetAllProductAsync(string userId);
 
-        Task<IEnumerable<ProductEntity>> GetAllIsDesiredProductsAsync();
+        Task<IEnumerable<ProductCardForViewDto>> GetAllIsDesiredProductsAsync(string userId);
 
-        Task<IEnumerable<ProductEntity>> GetAllIsNotDesiredProductsAsync();
+        Task<IEnumerable<ProductCardForViewDto>> GetAllIsNotDesiredProductsAsync(string userId);
 
         Task<int> GetProductArticleByIdAsync(int id);
 
@@ -21,8 +21,10 @@ namespace WildPrices.Business.Services.Common
 
         Task DeleteProductAsync(int id);
 
-        Task<int> GetProductIdByArticle(int article);
+        Task<int> GetProductIdByArticleAsync(int article);
 
-        Task<ProductEntity> GetProductById(int id);
+        Task<ProductEntity> GetProductByIdAsync(int id);
+
+        Task<CountProductsDto> GetProductsCountAsync(string userId);
     }
 }
