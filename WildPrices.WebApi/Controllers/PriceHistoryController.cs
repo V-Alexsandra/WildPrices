@@ -32,7 +32,7 @@ namespace WildPrices.WebApi.Controllers
 
             var priceHistoryForCreation = _parserService.GetPriceHistory(productFromWildberries);
 
-            priceHistoryForCreation.ProductId = await _productService.GetProductIdByArticle(productFromWildberries.Article);
+            priceHistoryForCreation.ProductId = await _productService.GetProductIdByArticleAsync(productFromWildberries.Article);
 
             await _priceHistoryService.CreatePriceHistoryAsync(priceHistoryForCreation);
             return Ok();

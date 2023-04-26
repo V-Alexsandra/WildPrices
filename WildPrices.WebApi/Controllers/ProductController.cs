@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using WildPrices.Business.DTOs.ProductDtos;
 using WildPrices.Business.Exceptions;
@@ -19,7 +17,7 @@ namespace WildPrices.Controllers
         private readonly IMemoryCache _memoryCache;
         private readonly IPriceHistoryService _priceHistoryService;
 
-        public ProductController(IProductService productService, IParserService parserService, 
+        public ProductController(IProductService productService, IParserService parserService,
             IMemoryCache memoryCache, IPriceHistoryService priceHistoryService)
         {
             _productService = productService;
@@ -51,16 +49,37 @@ namespace WildPrices.Controllers
         [Route("getAllIsDesiredProducts")]
         public async Task<ActionResult<IEnumerable<ProductEntity>>> GetAllIsDesiredProductsAsync()
         {
-            var products = await _productService.GetAllIsDesiredProductsAsync();
-            return Ok(products);
+            if (_memoryCache.TryGetValue("UserId", out string? id))
+            {
+                if (id == null)
+                {
+                    throw new NotSucceededException(nameof(id));
+                }
+
+                var products = await _productService.GetAllIsDesiredProductsAsync(id);
+
+                return Ok(products);
+            }
+
+            return NotFound();
         }
 
         [HttpGet]
         [Route("getAllIsNotDesiredProducts")]
         public async Task<ActionResult<IEnumerable<ProductEntity>>> GetAllIsNotDesiredProductsAsync()
         {
-            var notDesiredProducts = await _productService.GetAllIsNotDesiredProductsAsync();
-            return Ok(notDesiredProducts);
+            if (_memoryCache.TryGetValue("UserId", out string? id))
+            {
+                if (id == null)
+                {
+                    throw new NotSucceededException(nameof(id));
+                }
+
+                var notDesiredProducts = await _productService.GetAllIsNotDesiredProductsAsync(id);
+                return Ok(notDesiredProducts);
+            }
+
+            return NotFound();
         }
 
         [HttpPost]
@@ -72,7 +91,7 @@ namespace WildPrices.Controllers
 
             if (_memoryCache.TryGetValue("UserId", out string? id))
             {
-                if(id == null)
+                if (id == null)
                 {
                     throw new NotSucceededException(nameof(id));
                 }
@@ -86,13 +105,13 @@ namespace WildPrices.Controllers
         [HttpPut("{id}/updateMinAndMaxPrice")]
         public async Task<IActionResult> UpdateMinAndMaxPriceAsync(int id)
         {
-            var product = await _productService.GetProductById(id);
+            var product = await _productService.GetProductByIdAsync(id);
 
             var minAndMaxPrice = await _priceHistoryService.GetMaxAndMinPriceAsync(id);
 
             var currentPrice = await _priceHistoryService.GetCurrentPriceAsync(id);
 
-            if(currentPrice == product.DesiredPrice)
+            if (currentPrice == product.DesiredPrice)
             {
                 product.IsDesiredPrice = true;
             }
@@ -110,15 +129,15 @@ namespace WildPrices.Controllers
                 IsDesiredPrice = product.IsDesiredPrice,
                 UserId = product.UserId
             };
-            
+
             await _productService.UpdateAsync(model);
             return Ok();
         }
 
         [HttpPut("{id}/updateDesiredPrice")]
-        public async Task<IActionResult> UpdateDesiredPriceAsync(int id,  DesiredPriceDto desiredPriceDto)
+        public async Task<IActionResult> UpdateDesiredPriceAsync(int id, DesiredPriceDto desiredPriceDto)
         {
-            var product = await _productService.GetProductById(id);
+            var product = await _productService.GetProductByIdAsync(id);
 
             var currentPrice = await _priceHistoryService.GetCurrentPriceAsync(id);
 
@@ -152,6 +171,25 @@ namespace WildPrices.Controllers
             await _priceHistoryService.DeleteAllByProductIdAsync(id);
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("countProducts")]
+        public async Task<ActionResult<CountProductsDto>> CountProducts()
+        {
+            if (_memoryCache.TryGetValue("UserId", out string? id))
+            {
+                if (id == null)
+                {
+                    throw new NotSucceededException(nameof(id));
+                }
+
+                var countProductsDto = await _productService.GetProductsCountAsync(id);
+
+                return Ok(countProductsDto);
+            }
+
+            return NotFound();
         }
     }
 }
