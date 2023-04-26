@@ -15,8 +15,8 @@ namespace WildPrices.Business.MappingProfiles
 
             CreateMap<ProductForUpdateDto, ProductEntity>()
                 .ForMember(dest => dest.UserEntity, opt => opt.Ignore());
-            //добавить маппинг для forview
 
+            CreateMap<ProductEntity, ProductCardForViewDto>();
         }
     }
 }
