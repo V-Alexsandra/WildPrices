@@ -44,8 +44,13 @@ namespace WildPrices.Data.Repositories.Implementation
         public async Task<double> GetTheCurrentPriceAsync(int productId)
         {
             var entities = await DbSet
-           .Where(e => e.ProductId == productId)
-           .ToListAsync();
+                .Where(e => e.ProductId == productId)
+                .ToListAsync();
+
+            if (!entities.Any())
+            {
+                throw new InvalidOperationException("No price history found for the given product.");
+            }
 
             var last = entities.Last();
 
