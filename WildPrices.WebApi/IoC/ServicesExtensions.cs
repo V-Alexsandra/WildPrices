@@ -13,6 +13,8 @@ using WildPrices.Data.Contexts.Implementation;
 using WildPrices.Data.Entities;
 using WildPrices.Data.Repositories.Contracts;
 using WildPrices.Data.Repositories.Implementation;
+using WildPrices.WebApi.Controllers.Contracts;
+using WildPrices.WebApi.Controllers.Implementation;
 
 namespace WildPrices.WebApi.IoC
 {
@@ -66,6 +68,12 @@ namespace WildPrices.WebApi.IoC
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IPriceHistoryService, PriceHistoryService>();
             services.AddMemoryCache();
+
+            services.AddScoped<IPriceHistoryController, PriceHistoryController>();
+            services.AddScoped<IProductController, ProductController>();
+            services.AddScoped<IAuthController, AuthController>();
+
+            services.AddSingleton<IHostedService, DailyJob>();
 
             return services;
         }
