@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using WildPrices.Business.DTOs.UserDtos;
 using WildPrices.Business.Services.Common;
+using WildPrices.WebApi.Controllers.Contracts;
 
-namespace WildPrices.WebApi.Controllers
+namespace WildPrices.WebApi.Controllers.Implementation
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : ControllerBase, IAuthController
     {
         private readonly IUserService _userService;
         private readonly IMemoryCache _memoryCache;

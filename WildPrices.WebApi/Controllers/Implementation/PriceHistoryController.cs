@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WildPrices.Business.DTOs.PriceHistoryDtos;
 using WildPrices.Business.Services.Common;
+using WildPrices.WebApi.Controllers.Contracts;
 
-namespace WildPrices.WebApi.Controllers
+namespace WildPrices.WebApi.Controllers.Implementation
 {
     //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class PriceHistoryController : ControllerBase
+    public class PriceHistoryController : ControllerBase, IPriceHistoryController
     {
         private readonly IMapper _mapper;
         private readonly IPriceHistoryService _priceHistoryService;

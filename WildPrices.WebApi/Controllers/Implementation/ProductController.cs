@@ -4,13 +4,14 @@ using WildPrices.Business.DTOs.ProductDtos;
 using WildPrices.Business.Exceptions;
 using WildPrices.Business.Services.Common;
 using WildPrices.Data.Entities;
+using WildPrices.WebApi.Controllers.Contracts;
 
-namespace WildPrices.Controllers
+namespace WildPrices.WebApi.Controllers.Implementation
 {
     //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController : ControllerBase
+    public class ProductController : ControllerBase, IProductController
     {
         private readonly IProductService _productService;
         private readonly IParserService _parserService;
@@ -28,7 +29,7 @@ namespace WildPrices.Controllers
 
         [HttpGet]
         [Route("getAllProducts")]
-        public async Task<ActionResult<IEnumerable<ProductEntity>>> GetAllProductAsync()
+        public async Task<ActionResult<IEnumerable<ProductCardForViewDto>>> GetAllProductAsync()
         {
             if (_memoryCache.TryGetValue("UserId", out string? id))
             {
@@ -47,7 +48,7 @@ namespace WildPrices.Controllers
 
         [HttpGet]
         [Route("getAllIsDesiredProducts")]
-        public async Task<ActionResult<IEnumerable<ProductEntity>>> GetAllIsDesiredProductsAsync()
+        public async Task<ActionResult<IEnumerable<ProductCardForViewDto>>> GetAllIsDesiredProductsAsync()
         {
             if (_memoryCache.TryGetValue("UserId", out string? id))
             {
@@ -66,7 +67,7 @@ namespace WildPrices.Controllers
 
         [HttpGet]
         [Route("getAllIsNotDesiredProducts")]
-        public async Task<ActionResult<IEnumerable<ProductEntity>>> GetAllIsNotDesiredProductsAsync()
+        public async Task<ActionResult<IEnumerable<ProductCardForViewDto>>> GetAllIsNotDesiredProductsAsync()
         {
             if (_memoryCache.TryGetValue("UserId", out string? id))
             {
@@ -111,7 +112,7 @@ namespace WildPrices.Controllers
 
             var currentPrice = await _priceHistoryService.GetCurrentPriceAsync(id);
 
-            if (currentPrice == product.DesiredPrice)
+            if (currentPrice >= product.DesiredPrice - 1 && currentPrice <= product.DesiredPrice + 1)
             {
                 product.IsDesiredPrice = true;
             }
