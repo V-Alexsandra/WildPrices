@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+using WildPrices.WebApi;
 using WildPrices.WebApi.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,13 +14,16 @@ builder.Services.ConfigureSqlContext(configuration);
 
 builder.Services.ConfigureIdentity(configuration);
 
-//builder.Services.ConfigureAutoMapper();
+builder.Services.ConfigureAutoMapper();
 
-//builder.Services.ConfigureFluentValidation();
+builder.Services.ConfigureFluentValidation();
 
 builder.Services.ConfigureRepositories();
 
-//builder.Services.ConfigureServices();
+builder.Services.ConfigureAuthentication(configuration);
+builder.Services.ConfigureServices();
+
+builder.Services.AddSingleton<IHostedService, DailyJob>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -35,6 +40,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

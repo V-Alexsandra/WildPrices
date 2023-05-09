@@ -2,7 +2,7 @@
 
 namespace WildPrices.Data.Repositories.Implementation
 {
-    public abstract class UserRepository : IUserRepository
+    public class UserRepository : IUserRepository
     {
     }
 }

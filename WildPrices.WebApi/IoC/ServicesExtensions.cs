@@ -1,10 +1,20 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Reflection;
+using System.Text;
+using WildPrices.Business.MappingProfiles;
+using WildPrices.Business.Services.Common;
+using WildPrices.Business.Services.Implementation;
 using WildPrices.Data.Contexts.Contracts;
 using WildPrices.Data.Contexts.Implementation;
 using WildPrices.Data.Entities;
 using WildPrices.Data.Repositories.Contracts;
 using WildPrices.Data.Repositories.Implementation;
+using WildPrices.WebApi.Controllers.Contracts;
+using WildPrices.WebApi.Controllers.Implementation;
 
 namespace WildPrices.WebApi.IoC
 {
@@ -38,6 +48,67 @@ namespace WildPrices.WebApi.IoC
             services.AddScoped<IPriceHistoryRepository, PriceHistoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            return services;
+        }
+
+        public static IServiceCollection ConfigureAutoMapper(this IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(PriceHistoryProfile));
+            services.AddAutoMapper(typeof(ProductProfile));
+
+            return services;
+        }
+
+        public static IServiceCollection ConfigureServices(this IServiceCollection services)
+        {
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IParserService, ParserService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IPriceHistoryService, PriceHistoryService>();
+            services.AddMemoryCache();
+
+            services.AddScoped<IPriceHistoryController, PriceHistoryController>();
+            services.AddScoped<IProductController, ProductController>();
+            services.AddScoped<IAuthController, AuthController>();
+
+            return services;
+        }
+
+        public static IServiceCollection ConfigureFluentValidation(this IServiceCollection services)
+        {
+            services.AddFluentValidation(options =>
+            {
+                options.ImplicitlyValidateChildProperties = true;
+                options.ImplicitlyValidateRootCollectionElements = true;
+
+                options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddAuthentication(auth =>
+            {
+                auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidAudience = configuration["AuthSettings:Audience"],
+                    ValidIssuer = configuration["AuthSettings:Issuer"],
+                    RequireExpirationTime = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["AuthSettings:Key"])),
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true
+                };
+            });
 
             return services;
         }
