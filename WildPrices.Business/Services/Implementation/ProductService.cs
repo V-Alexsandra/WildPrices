@@ -71,10 +71,13 @@ namespace WildPrices.Business.Services.Implementation
         {
             var entities = await _productRepository.GetAllIsDesiredAsync(userId);
 
-            IEnumerable<ProductCardForViewDto> viewModels = entities.Select(p => 
+            var viewModels = new List<ProductCardForViewDto>();
+            foreach (var entity in entities)
             {
-                return _mapper.Map<ProductCardForViewDto>(p);
-            });
+                var viewModel = _mapper.Map<ProductCardForViewDto>(entity);
+                viewModel.CurrentPrice = await _priceHistoryService.GetCurrentPriceAsync(await _productRepository.GetProductIdByArticle(viewModel.Article));
+                viewModels.Add(viewModel);
+            }
 
             return viewModels;
         }
@@ -83,10 +86,13 @@ namespace WildPrices.Business.Services.Implementation
         {
             var entities = await _productRepository.GetAllIsNotDesiredAsync(userId);
 
-            IEnumerable<ProductCardForViewDto> viewModels = entities.Select(p =>
+            var viewModels = new List<ProductCardForViewDto>();
+            foreach (var entity in entities)
             {
-                return _mapper.Map<ProductCardForViewDto>(p);
-            });
+                var viewModel = _mapper.Map<ProductCardForViewDto>(entity);
+                viewModel.CurrentPrice = await _priceHistoryService.GetCurrentPriceAsync(await _productRepository.GetProductIdByArticle(viewModel.Article));
+                viewModels.Add(viewModel);
+            }
 
             return viewModels;
         }
