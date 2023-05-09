@@ -73,8 +73,6 @@ namespace WildPrices.WebApi.IoC
             services.AddScoped<IProductController, ProductController>();
             services.AddScoped<IAuthController, AuthController>();
 
-            services.AddSingleton<IHostedService, DailyJob>();
-
             return services;
         }
 

@@ -15,6 +15,8 @@ namespace WildPrices.Business.Services.Common
 
         Task<IEnumerable<ProductCardForViewDto>> GetAllIsNotDesiredProductsAsync(string userId);
 
+        Task<IEnumerable<ProductCardForViewDto>> GetAllProductWithoutUserIdAsync();
+
         Task<int> GetProductArticleByIdAsync(int id);
 
         Task UpdateAsync(ProductForUpdateDto model);

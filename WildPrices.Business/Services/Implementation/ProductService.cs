@@ -139,6 +139,21 @@ namespace WildPrices.Business.Services.Implementation
             return product;
         }
 
+        public async Task<IEnumerable<ProductCardForViewDto>> GetAllProductWithoutUserIdAsync()
+        {
+            var products = await _productRepository.GetAllAsync();
+
+            var viewModels = new List<ProductCardForViewDto>();
+            foreach (var entity in products)
+            {
+                var viewModel = _mapper.Map<ProductCardForViewDto>(entity);
+                viewModel.CurrentPrice = await _priceHistoryService.GetCurrentPriceAsync(await _productRepository.GetProductIdByArticle(viewModel.Article));
+                viewModels.Add(viewModel);
+            }
+
+            return viewModels;
+        }
+
         public async Task<CountProductsDto> GetProductsCountAsync(string userId)
         {
             var entities = await _productRepository.GetAllAsyncByUserId(userId);

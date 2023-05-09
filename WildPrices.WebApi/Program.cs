@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+using WildPrices.WebApi;
 using WildPrices.WebApi.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,8 +21,9 @@ builder.Services.ConfigureFluentValidation();
 builder.Services.ConfigureRepositories();
 
 builder.Services.ConfigureAuthentication(configuration);
-
 builder.Services.ConfigureServices();
+
+builder.Services.AddSingleton<IHostedService, DailyJob>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
