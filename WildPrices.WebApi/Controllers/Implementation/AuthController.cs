@@ -48,5 +48,18 @@ namespace WildPrices.WebApi.Controllers.Implementation
 
             return Ok(userName);
         }
+
+        [HttpGet]
+        //[Authorize]
+        public async Task<IActionResult> GetUserProfile()
+        {
+            if (_memoryCache.TryGetValue("UserId", out string? id))
+            {
+                var profile = await _userService.GetUserProfile(id);
+                return Ok(profile);
+            }
+
+            return NotFound();
+        }
     }
 }

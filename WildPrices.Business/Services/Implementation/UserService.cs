@@ -88,5 +88,21 @@ namespace WildPrices.Business.Services.Implementation
                 throw new NotSucceededException($"Failed to change user name with id {id}");
             }
         }
+
+        public async Task<ProfileDto> GetUserProfile(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                throw new NotFoundException("User not found");
+            }
+
+            return new ProfileDto
+            { 
+                UserName = user.UserName,
+                UserEmail = user.Email
+            };
+        }
     }
 }
