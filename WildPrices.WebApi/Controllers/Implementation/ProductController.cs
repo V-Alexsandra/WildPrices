@@ -85,10 +85,16 @@ namespace WildPrices.WebApi.Controllers.Implementation
 
         [HttpPost]
         [Route("createProduct")]
-        public async Task<IActionResult> CreateProductAsync(double desiredPrice, string article)
+        public async Task<IActionResult> CreateProductAsync(ProductRequestDto product)
         {
-            var desiredPriceDto = _productService.GetDisiredPrice(desiredPrice);
-            var model = _parserService.GetProductByArticle(article);
+            if(product == null)
+            {
+
+                throw new ArgumentNullException(nameof(product));
+            }
+
+            var desiredPriceDto = _productService.GetDisiredPrice(product.DesiredPrice);
+            var model = _parserService.GetProductByArticle(product.Article);
 
             if (_memoryCache.TryGetValue("UserId", out string? id))
             {
@@ -104,8 +110,10 @@ namespace WildPrices.WebApi.Controllers.Implementation
         }
 
         [HttpPut("{id}/updateMinAndMaxPrice")]
-        public async Task<IActionResult> UpdateMinAndMaxPriceAsync(int id)
+        public async Task<IActionResult> UpdateMinAndMaxPriceAsync(string article)
         {
+            var id = await _productService.GetProductIdByArticleAsync(Convert.ToInt32(article));
+
             var product = await _productService.GetProductByIdAsync(id);
 
             var minAndMaxPrice = await _priceHistoryService.GetMaxAndMinPriceAsync(id);
@@ -165,11 +173,11 @@ namespace WildPrices.WebApi.Controllers.Implementation
             return Ok();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProductAsync(int id)
+        [HttpDelete("{article}")]
+        public async Task<IActionResult> DeleteProductAsync(string article)
         {
-            await _productService.DeleteProductAsync(id);
-            await _priceHistoryService.DeleteAllByProductIdAsync(id);
+            await _productService.DeleteProductAsync(await _productService.GetProductIdByArticleAsync(Convert.ToInt32(article)));
+            await _priceHistoryService.DeleteAllByProductIdAsync(await _productService.GetProductIdByArticleAsync(Convert.ToInt32(article)));
 
             return Ok();
         }

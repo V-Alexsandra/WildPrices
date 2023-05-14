@@ -12,13 +12,13 @@ namespace WildPrices.WebApi.Controllers.Contracts
 
         Task<ActionResult<IEnumerable<ProductCardForViewDto>>> GetAllIsNotDesiredProductsAsync();
 
-        Task<IActionResult> CreateProductAsync(double desiredPrice, string article);
+        Task<IActionResult> CreateProductAsync(ProductRequestDto product);
 
-        Task<IActionResult> UpdateMinAndMaxPriceAsync(int id);
+        Task<IActionResult> UpdateMinAndMaxPriceAsync(string article);
 
         Task<IActionResult> UpdateDesiredPriceAsync(int id, DesiredPriceDto desiredPriceDto);
 
-        Task<IActionResult> DeleteProductAsync(int id);
+        Task<IActionResult> DeleteProductAsync(string article);
 
         Task<ActionResult<CountProductsDto>> CountProducts();
     }
