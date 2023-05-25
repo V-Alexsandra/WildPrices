@@ -1,0 +1,62 @@
+.caption {
+    font-family: 'Franklin Gothic Heavy', sans-serif;
+    color: #6233F8;
+    font-size: 34px;
+  }  
+  
+.form {
+    background-color: #FFFFFF;
+    border-radius: 20px;
+  }
+
+.text {
+    font-family: 'Franklin Gothic Book', sans-serif;
+    font-size: 18px;
+    color: #150056;
+  }
+
+.buttomactive {
+    font-family: 'Franklin Gothic Demi', sans-serif;
+    font-size: 20px;
+    color:#6233F8;
+  }
+
+.buttom {
+    font-family: 'Franklin Gothic Demi', sans-serif;
+    font-size: 20px;
+    color: #FFFFFF;
+  }
+
+.input {
+    font-family: 'Franklin Gothic Book', sans-serif;
+    font-size: 14px;
+    border-radius: 20px;
+    border: none;
+    background-color: #6233F8;
+    color: #FFFFFF;
+    height: 45px;
+  }
+
+.input:focus {
+    font-family: 'Franklin Gothic Book', sans-serif;
+    font-size: 16px;
+    outline: none;
+    color: #FFFFFF;
+    border-color: white;
+    background-color: #6233F8;
+  }
+
+  .input-gr {
+    margin-bottom: 20px;
+  }
+  
+@media only screen and (max-width: 992px) {
+  .input-gr {
+      margin-bottom: 5px;
+    }
+  }
+  
+  .but-hover{
+    font-family: 'Franklin Gothic Demi', sans-serif;
+      font-size: 21px;
+  }
