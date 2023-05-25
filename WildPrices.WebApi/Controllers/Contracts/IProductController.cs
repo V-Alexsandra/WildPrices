@@ -16,7 +16,7 @@ namespace WildPrices.WebApi.Controllers.Contracts
 
         Task<IActionResult> UpdateMinAndMaxPriceAsync(string article);
 
-        Task<IActionResult> UpdateDesiredPriceAsync(int id, DesiredPriceDto desiredPriceDto);
+        Task<IActionResult> UpdateDesiredPriceAsync(string article, DesiredPriceDto desiredPriceDto);
 
         Task<IActionResult> DeleteProductAsync(string article);
 

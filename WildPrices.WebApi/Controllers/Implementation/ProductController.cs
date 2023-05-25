@@ -109,7 +109,16 @@ namespace WildPrices.WebApi.Controllers.Implementation
             return Ok();
         }
 
-        [HttpPut("{id}/updateMinAndMaxPrice")]
+        [HttpGet]
+        [Route("getdesiredprice")]
+        public async Task<IActionResult> GetDesiredPrice(string article)
+        {
+            var desiredPrice = await _productService.GetDesiredPriceByArticleAsync(Convert.ToInt32(article));
+
+            return Ok(desiredPrice);
+        }
+
+        [HttpPut("/updateMinAndMaxPrice")]
         public async Task<IActionResult> UpdateMinAndMaxPriceAsync(string article)
         {
             var id = await _productService.GetProductIdByArticleAsync(Convert.ToInt32(article));
@@ -123,6 +132,10 @@ namespace WildPrices.WebApi.Controllers.Implementation
             if (currentPrice >= product.DesiredPrice - 1 && currentPrice <= product.DesiredPrice + 1)
             {
                 product.IsDesiredPrice = true;
+            }
+            else
+            {
+                product.IsDesiredPrice = false;
             }
 
             var model = new ProductForUpdateDto
@@ -143,16 +156,22 @@ namespace WildPrices.WebApi.Controllers.Implementation
             return Ok();
         }
 
-        [HttpPut("{id}/updateDesiredPrice")]
-        public async Task<IActionResult> UpdateDesiredPriceAsync(int id, DesiredPriceDto desiredPriceDto)
+        [HttpPut("/updateDesiredPrice")]
+        public async Task<IActionResult> UpdateDesiredPriceAsync(string article, DesiredPriceDto desiredPriceDto)
         {
+            var id = await _productService.GetProductIdByArticleAsync(Convert.ToInt32(article));
+
             var product = await _productService.GetProductByIdAsync(id);
 
             var currentPrice = await _priceHistoryService.GetCurrentPriceAsync(id);
 
-            if (currentPrice == desiredPriceDto.DesiredPrice)
+            if (currentPrice >= product.DesiredPrice - 1 && currentPrice <= product.DesiredPrice + 1)
             {
                 product.IsDesiredPrice = true;
+            }
+            else
+            {
+                product.IsDesiredPrice = false;
             }
 
             var model = new ProductForUpdateDto
@@ -176,8 +195,8 @@ namespace WildPrices.WebApi.Controllers.Implementation
         [HttpDelete("{article}")]
         public async Task<IActionResult> DeleteProductAsync(string article)
         {
-            await _productService.DeleteProductAsync(await _productService.GetProductIdByArticleAsync(Convert.ToInt32(article)));
             await _priceHistoryService.DeleteAllByProductIdAsync(await _productService.GetProductIdByArticleAsync(Convert.ToInt32(article)));
+            await _productService.DeleteProductAsync(await _productService.GetProductIdByArticleAsync(Convert.ToInt32(article)));
 
             return Ok();
         }
