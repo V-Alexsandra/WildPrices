@@ -28,5 +28,7 @@ namespace WildPrices.Business.Services.Common
         Task<ProductEntity> GetProductByIdAsync(int id);
 
         Task<CountProductsDto> GetProductsCountAsync(string userId);
+
+        Task<double> GetDesiredPriceByArticleAsync(int article);
     }
 }
