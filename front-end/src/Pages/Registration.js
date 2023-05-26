@@ -10,6 +10,9 @@ const Registration = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+    const [passwordRepeatError, setPasswordRepeatError] = useState(false);
 
     function handleMouseEnter(event) {
         event.target.classList.add('but-hover');
@@ -21,16 +24,28 @@ const Registration = () => {
 
     const handleEmailChange = (value) => {
         setEmail(value);
-    }
+        setEmailError(!isValidEmail(value));
+    };
+
+    const isValidEmail = (email) => {
+        const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+        return emailRegex.test(email);
+    };
 
     const handlePasswordChange = (value) => {
         setPassword(value);
-    }
+        setPasswordError(!isValidPassword(value));
+    };
+
+    const isValidPassword = (password) => {
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&{}\[\]()\-])[A-Za-z\d@$!%*#?&{}\[\]()\-]{8,}$/;
+        return passwordRegex.test(password);
+    };
 
     const handleRepeatPasswordChange = (value) => {
         setRepeatPassword(value);
+        setPasswordRepeatError(value !== password);
     }
-
 
     const handleRegistration = () => {
         const data = {
@@ -67,18 +82,40 @@ const Registration = () => {
                         <Card body className='form'>
                             <div className="input-gr">
                                 <label className='text'>Электронная почта</label><br></br>
-                                <Form.Control className='input' type="email" placeholder="name@example.com" id="txtName" 
-                                required 
-                                onChange={(e) => handleEmailChange(e.target.value)} />
+                                <Form.Control
+                                    className={`input ${emailError ? 'input-error' : ''}`}
+                                    type="email"
+                                    placeholder="name@example.com"
+                                    id="txtName"
+                                    onChange={(e) => handleEmailChange(e.target.value)}
+                                />
+                                {emailError && <p className="error-message">Пожалуйста, введите корректный адрес электронной почты.</p>}
                             </div>
                             <div className="input-gr">
                                 <label className='text'>Пароль</label><br></br>
-                                <Form.Control className='input' type="password" 
-                                onChange={(e) => handlePasswordChange(e.target.value)} />
+                                <Form.Control
+                                    className={`input ${passwordError ? 'input-error' : ''}`}
+                                    type="password"
+                                    onChange={(e) => handlePasswordChange(e.target.value)}
+                                />
+                                {passwordError && (
+                                    <p className="error-message">
+                                        Введенный пароль должен содержать не менее 8 символов, включая минимум 1 букву, 1 цифру и 1 специальный символ.
+                                    </p>
+                                )}
                             </div>
                             <div className="input-gr">
                                 <label className='text'>Повторите пароль</label><br></br>
-                                <Form.Control className='input' type="password" onChange={(e) => handleRepeatPasswordChange(e.target.value)} />
+                                <Form.Control
+                                    className={`input ${passwordRepeatError ? 'input-error' : ''}`}
+                                    type="password"
+                                    onChange={(e) => handleRepeatPasswordChange(e.target.value)}
+                                />
+                                {passwordRepeatError && (
+                                    <p className="error-message">
+                                        Пароли не совпадают.
+                                    </p>
+                                )}
                             </div>
                         </Card>
                     </Col>
@@ -86,10 +123,10 @@ const Registration = () => {
             </Container>
             <Container>
                 <Row>
-                    <Col sm={5} md={{ span: 5, offset: 2 }} lg={{ span: 3, offset: 2 }} ><p className='buttomactive' onClick={handleRegistration}  onMouseEnter={handleMouseEnter}
-                                            onMouseLeave={handleMouseLeave} type="submit">Создать аккаунт</p></Col>
-                    <Col sm={{ span: 3, offset: 4 }} md={{ span: 3, offset: 2 }} lg={{ span: 4, offset: 3 }}><p className='buttom'  onMouseEnter={handleMouseEnter}
-                                            onMouseLeave={handleMouseLeave} onClick={() => { document.location = "http://localhost:3000" }}>Авторизация</p></Col>
+                    <Col sm={5} md={{ span: 5, offset: 2 }} lg={{ span: 3, offset: 2 }} ><p className='buttomactive' onClick={handleRegistration} onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave} type="submit">Создать аккаунт</p></Col>
+                    <Col sm={{ span: 3, offset: 4 }} md={{ span: 3, offset: 2 }} lg={{ span: 4, offset: 3 }}><p className='buttom' onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave} onClick={() => { document.location = "http://localhost:3000" }}>Авторизация</p></Col>
                 </Row>
             </Container>
         </>

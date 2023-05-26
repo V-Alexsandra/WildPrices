@@ -61,3 +61,14 @@
   font-family: 'Franklin Gothic Demi', sans-serif;
     font-size: 21px;
 }
+
+.input-error {
+  border: 2px solid red;
+}
+
+.error-message {
+  color: red;
+  font-family: 'Franklin Gothic Book', sans-serif;
+  font-size: 12px;
+  margin-top: 5px;
+}

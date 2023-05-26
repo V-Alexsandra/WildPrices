@@ -9,12 +9,12 @@ import Card from 'react-bootstrap/Card';
 
 const Profile = () => {
     const [lookIcon, setLookIcon] = useState(look);
-    // //const [basketIcon, setBasketIcon] = useState(basket);
 
     const [products, setProducts] = useState("");
     const [profile, setProfile] = useState("");
     const [name, setName] = useState("");
-    const [showModal, setShowModal] = useState(false)
+    const [showModal, setShowModal] = useState(false);
+    const [nameError, setnameError] = useState(false);
 
     const handleCloseModal = () => {
         setShowModal(false);
@@ -25,10 +25,13 @@ const Profile = () => {
     };
 
     const handleNameChange = (event) => {
+        const nicknameRegex = /^[a-zA-Z0-9]+$/;
         setName(event.target.value);
+        setnameError(!nicknameRegex.test(event.target.value));
     };
+
     const handleSubmit = () => {
-        handleChangeName(name);
+            handleChangeName(name);
     };
 
     const handleChangeName = (name) => {
@@ -44,7 +47,7 @@ const Profile = () => {
                 document.location = "/profile";
             }
         }).catch((error) => {
-            alert("Пожалуйста, напишите никнейм латинскими буквами");
+            alert("Такой никнейм уже существует. Пожалуйста, напишите другой никнейм.");
         })
     }
 
@@ -102,8 +105,12 @@ const Profile = () => {
                             type="text"
                             value={name}
                             onChange={handleNameChange}
+                            className={`desired-price-input ${nameError ? 'input-error' : ''}`}
                             style={{ backgroundColor: '#6233F8', color: 'white' }}
                         />
+                        {nameError && (
+                            <p className="error-message">Никнейм может содержать только латинские буквы и цифры.</p>
+                        )}
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
@@ -128,10 +135,10 @@ const Profile = () => {
                                         <p className='data'>{profile.userName}</p>
                                     </Col>
                                     <Col>
-                                        <img src={change} 
-                                        onMouseEnter={handleMouseEnter}
-                                        onMouseLeave={handleMouseLeave}
-                                        alt="Изменение" width="20" height="20" className="" onClick={handleShowModal}></img>
+                                        <img src={change}
+                                            onMouseEnter={handleMouseEnter}
+                                            onMouseLeave={handleMouseLeave}
+                                            alt="Изменение" width="20" height="20" className="" onClick={handleShowModal}></img>
                                     </Col>
                                 </Row>
                             </Container>

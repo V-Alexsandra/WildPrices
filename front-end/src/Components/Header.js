@@ -20,9 +20,13 @@ function Header() {
   const [showModal, setShowModal] = useState(false);
   const [desiredprice, setDesiredPrice] = useState('');
   const [articleSend, setArticle] = useState('');
+  const [articleError, setArticleError] = useState(false);
+  const [desiredPriceError, setDesiredPriceError] = useState(false);
 
   const handleDesiredPriceChange = (event) => {
+    const desiredPriceRegex = /^\d+(\.\d+)?$/;
     setDesiredPrice(event.target.value);
+    setDesiredPriceError(!desiredPriceRegex.test(event.target.value));
   };
 
   const handleSubmit = () => {
@@ -38,13 +42,22 @@ function Header() {
   };
 
   const handleShowModal = () => {
-    setShowModal(true);
+    if (articleError || articleSend === '') {
+      alert('Пожалуйста, проверьте введенный артикул.');
+      setShowModal(false);
+    } else {
+      setShowModal(true);
+    }
   };
-
+  
   const handleSearchMouseOver = () => {
-    setSearchIcon(search2);
+    if (articleSend === '') {
+      setSearchIcon(search);
+    } else {
+      setSearchIcon(search2);
+    }
   };
-
+  
   const handleSearchMouseOut = () => {
     setSearchIcon(search);
   };
@@ -66,8 +79,10 @@ function Header() {
   };
 
   const handleArticleChange = (value) => {
+    const articleRegex = /^\d{8,}$/;
     setArticle(value);
-  };
+    setArticleError(value !== '' && !articleRegex.test(value));
+  };  
 
   const handleProduct = (desiredprice) => {
     const data = {
@@ -108,7 +123,7 @@ function Header() {
         show={showModal}
         onHide={handleCloseModal}
         style={{ fontFamily: 'Franklin Gothic Book, sans-serif', fontSize: '16px', color: '#150056' }}
-      > 
+      >
         <Modal.Header closeButton>
           <Modal.Title>Введите желаемую цену</Modal.Title>
         </Modal.Header>
@@ -119,14 +134,18 @@ function Header() {
               type="text"
               value={desiredprice}
               onChange={handleDesiredPriceChange}
+              className={`desired-price-input ${desiredPriceError ? 'input-error' : ''}`}
               style={{ backgroundColor: '#6233F8', color: 'white' }}
             />
+            {desiredPriceError && (
+              <p className="error-message">Пожалуйста, введите число (дробную часть через точку)</p>
+            )}
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-            <Button variant="primary" style={{ backgroundColor: '#6233F8', color: 'white'}} onClick={handleSubmit}>
-              Сохранить
-            </Button>
+          <Button variant="primary" style={{ backgroundColor: '#6233F8', color: 'white' }} onClick={handleSubmit}>
+            Сохранить
+          </Button>
         </Modal.Footer>
       </Modal>
 
@@ -138,7 +157,7 @@ function Header() {
               <Form.Control
                 type="text"
                 placeholder="Артикул товара:"
-                className="searchinput"
+                className={`searchinput ${articleError ? 'input-error' : ''}`}
                 onChange={(e) => handleArticleChange(e.target.value)}
               />
             </InputGroup>
@@ -151,7 +170,7 @@ function Header() {
                 width="29"
                 height="29"
                 className="icon"
-                onClick={handleShowModal} // Изменено на handleShowModal для открытия модального окна
+                onClick={handleShowModal}
               />
             </Nav.Link>
             <Nav.Link href="#action1">

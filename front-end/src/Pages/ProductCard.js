@@ -14,11 +14,14 @@ const ProductCard = () => {
     const [showModal, setShowModal] = useState(false);
     const [newDesiredPrice, setNewDesiredPrice] = useState('');
     const [desiredPrice, setDesiredPrice] = useState('');
+    const [desiredPriceError, setDesiredPriceError] = useState(false);
 
     const [priceHistory, setPriceHistory] = useState([]);
 
     const handleDesiredPriceChange = (event) => {
+        const desiredPriceRegex = /^\d+(\.\d+)?$/;
         setNewDesiredPrice(event.target.value);
+        setDesiredPriceError(!desiredPriceRegex.test(event.target.value));
     };
 
     const handleCloseModal = () => {
@@ -56,9 +59,9 @@ const ProductCard = () => {
             .catch((error) => {
                 alert(error);
             });
-        
-        localStorage.setItem('prices', JSON.stringify({  priceHistory }));
-        
+
+        localStorage.setItem('prices', JSON.stringify({ priceHistory }));
+
     };
 
     useEffect(() => {
@@ -131,8 +134,12 @@ const ProductCard = () => {
                             type="text"
                             value={newDesiredPrice}
                             onChange={handleDesiredPriceChange}
+                            className={`desired-price-input ${desiredPriceError ? 'input-error' : ''}`}
                             style={{ backgroundColor: '#6233F8', color: 'white' }}
                         />
+                        {desiredPriceError && (
+                            <p className="error-message">Пожалуйста, введите число (дробную часть через точку).</p>
+                        )}
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
