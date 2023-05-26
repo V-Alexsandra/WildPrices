@@ -47,7 +47,7 @@ const Login = () => {
                 document.location = "/basket";
             }
         }).catch((error) => {
-            alert(error);
+            alert("Аккаунт не найден. Проверьте введенные данные.");
         })
     }
 

@@ -108,12 +108,12 @@ function Header() {
               }
             })
             .catch((error) => {
-              alert(error);
+              alert("Товар не найден.");
             });
         }
       })
       .catch((error) => {
-        alert(error);
+        alert("Товар не найден.");
       });
   };
 

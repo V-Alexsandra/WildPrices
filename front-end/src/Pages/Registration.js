@@ -62,7 +62,7 @@ const Registration = () => {
                 }
             })
             .catch((error) => {
-                alert(error);
+                alert("Аккаунт не создан. Проверьте введенные данные.");
             })
     }
 
