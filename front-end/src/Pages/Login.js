@@ -53,7 +53,7 @@ const Login = () => {
 
     return (
         <>
-            <WildPricesNav /><br></br><br></br>
+            <WildPricesNav /><br></br>
             <Container>
                 <Row className="my-auto">
                     <Col className="text-center">

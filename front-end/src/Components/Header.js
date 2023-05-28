@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -22,6 +22,21 @@ function Header() {
   const [articleSend, setArticle] = useState('');
   const [articleError, setArticleError] = useState(false);
   const [desiredPriceError, setDesiredPriceError] = useState(false);
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const handleDesiredPriceChange = (event) => {
     const desiredPriceRegex = /^\d+(\.\d+)?$/;
@@ -49,7 +64,7 @@ function Header() {
       setShowModal(true);
     }
   };
-  
+
   const handleSearchMouseOver = () => {
     if (articleSend === '') {
       setSearchIcon(search);
@@ -57,7 +72,7 @@ function Header() {
       setSearchIcon(search2);
     }
   };
-  
+
   const handleSearchMouseOut = () => {
     setSearchIcon(search);
   };
@@ -82,7 +97,7 @@ function Header() {
     const articleRegex = /^\d{8,}$/;
     setArticle(value);
     setArticleError(value !== '' && !articleRegex.test(value));
-  };  
+  };
 
   const handleProduct = (desiredprice) => {
     const data = {
@@ -151,7 +166,9 @@ function Header() {
 
       <Navbar className="head">
         <Container>
-          <Navbar.Brand className="logo">WILDPRICES</Navbar.Brand>
+          <Navbar.Brand className={`logo ${isMobile ? 'mobile' : ''}`}>
+            {isMobile ? 'WP' : 'WILDPRICES'}
+          </Navbar.Brand>
           <Nav>
             <InputGroup className="search">
               <Form.Control

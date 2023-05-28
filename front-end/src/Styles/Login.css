@@ -7,6 +7,10 @@
 .form {
     background-color: #FFFFFF;
     border-radius: 20px;
+    padding-bottom: 16px;
+    padding-top: 16px;
+    padding-left: 30px;
+    padding-right: 30px;
   }
 
 .text {
