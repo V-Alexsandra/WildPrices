@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using WildPrices.Data.Contexts.Contracts;
 using WildPrices.Data.Entities;
 using WildPrices.Data.Repositories.Contracts;
@@ -70,5 +71,13 @@ namespace WildPrices.Data.Repositories.Implementation
 
             return entity.Id;
         }
-    }
+        public async Task<double> GetDesiredPriceByArticleAsync(int article)
+        {
+            var product = await DbSet
+                .AsNoTracking()
+                .FirstOrDefaultAsync(e => e.Article == article);
+
+            return product.DesiredPrice;
+        }
+    } 
 }

@@ -11,7 +11,8 @@ namespace WildPrices.Business.MappingProfiles
             CreateMap<PriceHistoryForCreationDto, PriceHistoryEntity>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.ProductEntity, opt => opt.Ignore());
-            //for view
+
+            CreateMap<PriceHistoryEntity, PriceHistoryDto>();
         }
     }
 }

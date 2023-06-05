@@ -1,0 +1,99 @@
+.basketcardP {
+    background-color: #fff;
+    color: #150056;
+    border-radius: 20px;
+    padding: 18px;
+    min-width: 700px;
+    min-height: 138px;
+    margin-bottom: 18px;
+  }
+  
+  @media (max-width: 768px) {
+    .basketcardP {
+      min-width: auto;
+      width: 100%;
+    }
+  }  
+
+.productcard {
+    background-color: #fff;
+    color: #150056;
+    border-radius: 15px;
+    margin-bottom: 10px !important;  
+    padding: 8px !important;
+  }
+
+.cont{
+    margin-bottom: 16px;
+    padding: 0px;
+}
+
+.contmain{
+    margin-top: 20px;
+    padding: 0px;
+}
+
+  .pricecard {
+    background-color: #6233F8;
+    color: #fff;
+    border-radius: 15px;
+    margin-bottom: 10px !important;
+    padding: 8px !important;
+  }
+  .icon-hover {
+    transform: scale(1.2);
+  }
+
+.nameP{
+    font-family: "Franklin Gothic Heavy", sans-serif;
+    font-size: 18px;
+}
+
+.title{
+    font-family: "Franklin Gothic Heavy", sans-serif;
+    font-size: 24px;
+    color: #150056;
+}
+
+.textP{
+    font-family: Franklin Gothic Book, sans-serif;
+    font-size: 14px;
+    margin-bottom: 0px !important;  
+}
+
+a.nameP {
+    color: #150056;
+    text-decoration: none;
+  }
+
+  a.nameP:hover {
+    color: #6233F8;
+    text-decoration: none;
+  }
+
+.pricetext{
+    font-family: Franklin Gothic Book, sans-serif;
+    font-size: 16px;
+    margin-left: 22px;
+    margin-bottom: 0px !important;
+}
+
+.price{
+    font-family: "Franklin Gothic Medium", sans-serif;
+    font-size: 16px;
+    margin-bottom: 0px !important;
+}
+
+.grafcard {
+    background-color: #fff;
+    color: #150056;
+    border-radius: 20px;
+    min-height: 250px;
+}
+
+@media (max-width: 768px) {
+    .grafcard {
+      min-width: auto;
+      width: 100%;
+    }
+  }  

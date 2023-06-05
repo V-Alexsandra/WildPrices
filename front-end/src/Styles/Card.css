@@ -1,0 +1,16 @@
+.card {
+    background-color: #fff;
+    font-family: 'Franklin Gothic Medium', sans-serif;
+    font-size: 18px;
+    color: #150056;
+    border-radius: 20px;
+  }
+
+.data{
+    background-color: #fff;
+    font-family: 'Franklin Gothic Book', sans-serif;
+    font-size: 18px;
+    color: #150056;
+    border-radius: 20px;
+}
+  

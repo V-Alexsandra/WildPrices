@@ -9,5 +9,7 @@ namespace WildPrices.Business.Services.Common
         Task<LoginSuccessDto> LoginUserAsync(LoginUserDto model);
 
         Task ChangeUserName(string userName, string id);
+
+        Task<ProfileDto> GetUserProfile(string id);
     }
 }

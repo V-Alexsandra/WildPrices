@@ -38,9 +38,11 @@ namespace WildPrices.WebApi.Controllers.Implementation
             return Ok();
         }
 
-        [HttpGet("{productId}")]
-        public async Task<IActionResult> GetAllPriceHistoryByProductId(int productId)
+        [HttpGet]
+        public async Task<IActionResult> GetAllPriceHistoryByProductId(string article)
         {
+            var productId = await _productService.GetProductIdByArticleAsync(Convert.ToInt32(article));
+
             var priceHistoryEntities = await _priceHistoryService.GetAllPriceHistoryByProductIdAsync(productId);
             var priceHistoryDtos = _mapper.Map<IEnumerable<PriceHistoryDto>>(priceHistoryEntities);
 
@@ -56,10 +58,12 @@ namespace WildPrices.WebApi.Controllers.Implementation
             return Ok();
         }
 
-        [HttpGet("{productId}/min-and-max-price")]
-        public async Task<IActionResult> GetMaxAndMinPrice(int productId)
+        [HttpGet("/min-and-max-price")]
+        public async Task<IActionResult> GetMaxAndMinPrice(string article)
         {
-            var minAndMaxPriceDto = await _priceHistoryService.GetMaxAndMinPriceAsync(productId);
+            var id = await _productService.GetProductIdByArticleAsync(Convert.ToInt32(article));
+
+            var minAndMaxPriceDto = await _priceHistoryService.GetMaxAndMinPriceAsync(id);
             return Ok(minAndMaxPriceDto);
         }
     }

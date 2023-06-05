@@ -166,5 +166,10 @@ namespace WildPrices.Business.Services.Implementation
                 IsDesiredProductsCount = isDesiredEntities.Count()
             };
         }
+
+        public async Task<double> GetDesiredPriceByArticleAsync(int article)
+        {
+            return await _productRepository.GetDesiredPriceByArticleAsync(article);
+        }
     }
 }

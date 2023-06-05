@@ -1,0 +1,55 @@
+.basketcard {
+    background-color: #fff;
+    color: #150056;
+    border-radius: 20px;
+  }
+
+  .icon-hover {
+    transform: scale(1.2);
+  }
+
+.name{
+    font-family: "Franklin Gothic Heavy", sans-serif;
+    font-size: 22px;
+}
+
+.text{
+    font-family: Franklin Gothic Book, sans-serif;
+    font-size: 16px;
+}
+
+.filter
+{
+    color: #150056;
+    font-family: "Franklin Gothic Heavy", sans-serif;
+    font-size: 18px;
+}
+
+.navdropdown {
+    font-family: 'Franklin Gothic Heavy', sans-serif;
+    font-size: 20x;
+    color: #150056;
+  }
+
+  .navdropdown:hover {
+    font-family: 'Franklin Gothic Heavy', sans-serif;
+    font-size: 20x;
+    color: #6233F8;
+  }
+
+.filtertext
+{
+    color: #150056;
+    font-family: "Franklin Gothic Heavy", sans-serif;
+    font-size: 16px;
+}
+
+a.name {
+    color: #150056;
+    text-decoration: none;
+  }
+
+  a.name:hover {
+    color: #6233F8;
+    text-decoration: none;
+  }

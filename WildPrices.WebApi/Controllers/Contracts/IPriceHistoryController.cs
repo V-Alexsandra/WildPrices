@@ -6,10 +6,10 @@ namespace WildPrices.WebApi.Controllers.Contracts
     {
         Task<IActionResult> CreatePriceHistory(string article);
 
-        Task<IActionResult> GetAllPriceHistoryByProductId(int productId);
+        Task<IActionResult> GetAllPriceHistoryByProductId(string article);
 
         Task<IActionResult> DeleteAllByProductId(int productId);
 
-        Task<IActionResult> GetMaxAndMinPrice(int productId);
+        Task<IActionResult> GetMaxAndMinPrice(string article);
     }
 }
