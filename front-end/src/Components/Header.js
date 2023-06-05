@@ -140,7 +140,7 @@ function Header() {
         style={{ fontFamily: 'Franklin Gothic Book, sans-serif', fontSize: '16px', color: '#150056' }}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Введите желаемую цену</Modal.Title>
+          <Modal.Title style={{ fontFamily: 'Franklin Gothic Book, sans-serif', fontSize: '18px', color: '#150056' }}>Введите желаемую цену</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group controlId="desiredPrice">
@@ -158,7 +158,7 @@ function Header() {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" style={{ backgroundColor: '#6233F8', color: 'white' }} onClick={handleSubmit}>
+          <Button variant="primary" style={{borderStyle: 'none', backgroundColor: '#6233F8', color: 'white' }} onClick={handleSubmit}>
             Сохранить
           </Button>
         </Modal.Footer>

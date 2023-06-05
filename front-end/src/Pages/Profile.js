@@ -96,7 +96,7 @@ const Profile = () => {
                 style={{ fontFamily: 'Franklin Gothic Book, sans-serif', fontSize: '16px', color: '#150056' }}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Введите новый никнейм</Modal.Title>
+                    <Modal.Title style={{ fontFamily: 'Franklin Gothic Book, sans-serif', fontSize: '18px', color: '#150056' }}>Введите новый никнейм</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form.Group controlId="name">
@@ -114,7 +114,7 @@ const Profile = () => {
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" style={{ backgroundColor: '#6233F8', color: 'white' }} onClick={handleSubmit}>
+                    <Button variant="primary" style={{ borderStyle: 'none', backgroundColor: '#6233F8', color: 'white' }} onClick={handleSubmit}>
                         Сохранить
                     </Button>
                 </Modal.Footer>
