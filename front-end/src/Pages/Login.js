@@ -89,7 +89,7 @@ const Login = () => {
                     <Col sm={3} md={{ span: 2, offset: 2 }}><p className='buttomactive' onClick={() => handleLogin()} onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}>Войти</p></Col>
                     <Col sm={{ span: 3, offset: 4 }} md={{ span: 3, offset: 4 }} lg={{ span: 3, offset: 4 }}><p className='buttom' onMouseEnter={handleMouseEnter}
-                        onMouseLeave={handleMouseLeave} onClick={() => document.location = "http://localhost:3000/registration"}>Регистрация</p></Col>
+                        onMouseLeave={handleMouseLeave} onClick={() => document.location = "http://localhost:3000/registration"} style={{paddingLeft: 40}}>Регистрация</p></Col>
                 </Row>
             </Container>
         </>

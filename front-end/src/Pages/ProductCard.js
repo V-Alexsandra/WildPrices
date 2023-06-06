@@ -225,9 +225,9 @@ const ProductCard = () => {
                   <p className="pricetext">Желаемая: </p>
                 </Col>
                 <Col>
-                  <p className="price"> {formatPrice(desiredPrice)} руб.</p>
+                  <p className="price" style={{paddingLeft: 35}}> {formatPrice(desiredPrice)} руб.</p>
                 </Col>
-                <Col>
+                <Col xs={2}>
                   <img
                     src={change}
                     onMouseEnter={handleMouseEnter}
@@ -237,6 +237,7 @@ const ProductCard = () => {
                     width="18"
                     height="19"
                     className=""
+                    style={{paddingBottom: 3}}
                   ></img>
                 </Col>
               </Row>

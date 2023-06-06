@@ -8,7 +8,6 @@ const LineChart = ({ priceHistory }) => {
   const [options, setOptions] = useState("");
 
   useEffect(() => {
-    console.log(priceHistory);
     const uniqueDates = [
       ...new Set(
         priceHistory.map((DayPriceHistory) => DayPriceHistory.currentDate)

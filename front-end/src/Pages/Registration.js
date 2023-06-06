@@ -126,7 +126,7 @@ const Registration = () => {
                     <Col sm={5} md={{ span: 5, offset: 2 }} lg={{ span: 3, offset: 2 }} ><p className='buttomactive' onClick={handleRegistration} onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave} type="submit">Создать аккаунт</p></Col>
                     <Col sm={{ span: 3, offset: 4 }} md={{ span: 3, offset: 2 }} lg={{ span: 4, offset: 3 }}><p className='buttom' onMouseEnter={handleMouseEnter}
-                        onMouseLeave={handleMouseLeave} onClick={() => { document.location = "http://localhost:3000" }}>Авторизация</p></Col>
+                        onMouseLeave={handleMouseLeave} onClick={() => { document.location = "http://localhost:3000" }} style={{paddingLeft: 40}}>Авторизация</p></Col>
                 </Row>
             </Container>
         </>
