@@ -18,6 +18,8 @@ const ProductCard = () => {
 
   const [priceHistory, setPriceHistory] = useState([]);
 
+  const [isDesiredPriceValue, setisDesiredPriceValue] = useState(false);
+
   const handleDesiredPriceChange = (event) => {
     const desiredPriceRegex = /^\d+(\.\d+)?$/;
     setNewDesiredPrice(event.target.value);
@@ -63,10 +65,6 @@ const ProductCard = () => {
       });
 
     localStorage.setItem('prices', JSON.stringify({ priceHistory }));
-  };
-
-  useEffect(() => {
-    handleLoad(article);
 
     const url1 = 'https://localhost:8443/api/Product/getdesiredprice';
     const params1 = {
@@ -83,7 +81,17 @@ const ProductCard = () => {
       .catch((error) => {
         alert(error);
       });
-  }, []);
+  };
+
+  useEffect(() => {
+    handleLoad(article);
+
+    if (desiredPrice >= currentPrice || (currentPrice > desiredPrice && currentPrice <= desiredPrice + 1)) {
+      setisDesiredPriceValue(true);
+    } else {
+      setisDesiredPriceValue(false);
+    }
+  }, [desiredPrice]);
 
   const handleChangeClick = (article, newDesiredPrice) => {
     const url = `https://localhost:8443/updateDesiredPrice`;
@@ -118,7 +126,7 @@ const ProductCard = () => {
     handleChangeClick(article, newDesiredPrice);
   };
 
-  const { article, link, name, isDesiredPrice, currentPrice } = JSON.parse(localStorage.getItem('selectedProduct'));
+  var { article, link, name, isDesiredPrice, currentPrice } = JSON.parse(localStorage.getItem('selectedProduct'));
 
   const formatPrice = (price) => {
     return parseFloat(price).toFixed(2);
@@ -180,7 +188,7 @@ const ProductCard = () => {
                     </Col>
                     <Col>
                       <p className="textP">
-                        Статус: {isDesiredPrice ? 'достиг желаемой стоимости' : 'не достиг желаемой стоимости'}
+                        Статус: {isDesiredPriceValue ? 'достиг желаемой стоимости' : 'не достиг желаемой стоимости'}
                       </p>
                     </Col>
                   </Row>
@@ -225,7 +233,7 @@ const ProductCard = () => {
                   <p className="pricetext">Желаемая: </p>
                 </Col>
                 <Col>
-                  <p className="price" style={{paddingLeft: 35}}> {formatPrice(desiredPrice)} руб.</p>
+                  <p className="price" style={{ paddingLeft: 35 }}> {formatPrice(desiredPrice)} руб.</p>
                 </Col>
                 <Col xs={2}>
                   <img
@@ -237,7 +245,7 @@ const ProductCard = () => {
                     width="18"
                     height="19"
                     className=""
-                    style={{paddingBottom: 3}}
+                    style={{ paddingBottom: 3 }}
                   ></img>
                 </Col>
               </Row>
